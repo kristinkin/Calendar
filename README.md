@@ -4,7 +4,7 @@ Program that print formated calendar to file or to console (depends of arguments
 Command line arguments: 1: name of input file 2: name of output file
 if no extra params program will use console
 
-input formats:
+# Input formats:
 
 month num_of_month num_of_year | horiz/vert year_once/year_for_every_month
 
