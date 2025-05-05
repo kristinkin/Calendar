@@ -2,13 +2,8 @@
 #include"Calendar.hpp"
 
 class invalid_input : public std::exception {
-private:
-	const char* message;
-	std::string str;
 public:
-	invalid_input(const char* _message, std::string _str) : message(_message) { str = _str; };
-	const char* get_message() { return message; };
-	std::string get_string() { return str; };
+	invalid_input(const std::string& _str) : exception{ ("invalid input in string: " + _str).c_str() } {};
 };
 
 class CalendarParser {

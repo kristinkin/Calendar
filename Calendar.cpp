@@ -21,7 +21,36 @@ Calendar::Calendar(int _month_1, int _year_1, int _month_2, int _year_2) {
 	year_2 = _year_2;
 }
 
-bool DaysFormatter::is_leap_year(int year) {
+class CalendarGui::DaysFormatter {
+protected:
+	int get_week_day(int month, int year);
+	bool is_leap_year(int year);
+	std::array<int, 12> how_many_days{ 31, 28, 31, 30,31, 30, 31, 31, 30, 31, 30, 31 };
+	const std::array<std::string, 7> days_of_week{ "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su" };
+public:
+	virtual std::vector<std::string> make_days(int month, int year) = 0;
+};
+
+class CalendarGui::VerticalDaysFormatter : public DaysFormatter {
+public:
+	virtual std::vector<std::string> make_days(int month, int year);
+};
+
+class CalendarGui::HorizontalDaysFormatter : public DaysFormatter {
+public:
+	virtual std::vector<std::string> make_days(int month, int year);
+};
+
+CalendarGui::CalendarGui(Calendar& _calendar, Orientation orientation, YearType _year_type) {
+	calendar = _calendar;
+	if (orientation == Orientation::horizontal)
+		days_formatter = std::make_shared<HorizontalDaysFormatter>();
+	else if (orientation == Orientation::vertical)
+		days_formatter = std::make_shared<VerticalDaysFormatter>();
+	year_type = _year_type;
+}
+
+bool CalendarGui::DaysFormatter::is_leap_year(int year) {
 	bool is_leap_year;
 	if (year % 4 != 0)
 		is_leap_year = false;
@@ -38,28 +67,15 @@ bool DaysFormatter::is_leap_year(int year) {
 	return is_leap_year;
 }
 
-int DaysFormatter::get_week_day(int month, int year) {
-	std::map<int, int> month_code = {
-		{1, 1},
-		{2, 4},
-		{3, 4},
-		{4, 0},
-		{5, 2},
-		{6, 5},
-		{7, 0},
-		{8, 3},
-		{9, 6},
-		{10, 1},
-		{11, 4},
-		{12, 6}
-	};
+int CalendarGui::DaysFormatter::get_week_day(int month, int year) {
+	std::array<int, 12> month_code = {1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6};
 
 	if (is_leap_year(year)) {
-		month_code[1] = 0;
-		month_code[2] = 3;
+		month_code[1-1] = 0;
+		month_code[2-1] = 3;
 	}
 	int year_code = (6 + year % 100 + (year % 100) / 4) % 7;
-	int week_day = (1 + month_code[month] + year_code) % 7 - 1;
+	int week_day = (1 + month_code[month-1] + year_code) % 7 - 1;
 	if (week_day == -1)
 		week_day = 6;
 	if (week_day == 0)
@@ -67,7 +83,7 @@ int DaysFormatter::get_week_day(int month, int year) {
 	return week_day;
 }
 
-std::vector<std::string> HorizontalDaysFormatter::make_days(int month, int year) {
+std::vector<std::string> CalendarGui::HorizontalDaysFormatter::make_days(int month, int year) {
 	int first_week_day = get_week_day(month, year);
 	if (is_leap_year(year))
 		how_many_days[2-1] = 29;
@@ -103,7 +119,7 @@ std::vector<std::string> HorizontalDaysFormatter::make_days(int month, int year)
 	return one_month;
 }
 
-std::vector<std::string> VerticalDaysFormatter::make_days(int month, int year) {
+std::vector<std::string> CalendarGui::VerticalDaysFormatter::make_days(int month, int year) {
 	int first_week_day = get_week_day(month, year);
 	if (is_leap_year(year))
 		how_many_days[2-1] = 29;

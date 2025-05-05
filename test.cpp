@@ -15,7 +15,7 @@ TEST(OneMonth, Horiz_YearOnce) {
 		"                               \n"
 		"   \n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), new HorizontalDaysFormatter, YearType::year_once);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), Orientation::horizontal, YearType::year_once);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -32,7 +32,7 @@ TEST(OneMonth, Horiz_YearForEveryMonth) {
 		"                               \n"
 		"   \n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), new HorizontalDaysFormatter, YearType::year_for_every_month);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), Orientation::horizontal, YearType::year_for_every_month);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -51,7 +51,7 @@ TEST(OneMonth, Vert_YearOnce) {
 		"Su  4  11  18  25             \n"
 		"\n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), new VerticalDaysFormatter, YearType::year_once);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), Orientation::vertical, YearType::year_once);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -68,7 +68,7 @@ TEST(OneMonth, Vert_YearForEveryMonth) {
 		"Su  4  11  18  25             \n"
 		"\n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), new VerticalDaysFormatter, YearType::year_for_every_month);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2, 2024), Orientation::vertical, YearType::year_for_every_month);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -114,7 +114,7 @@ TEST(OneYear, Horiz_YearOnce) {
 		"                                                                                             \n"
 		"         \n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2025), new HorizontalDaysFormatter, YearType::year_once);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2025), Orientation::horizontal, YearType::year_once);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -158,7 +158,7 @@ TEST(OneYear, Horiz_YearForEveryMonth) {
 		"                                                                                             \n"
 		"         \n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2025), new HorizontalDaysFormatter, YearType::year_for_every_month);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2025), Orientation::horizontal, YearType::year_for_every_month);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -204,7 +204,7 @@ TEST(OneYear, Vert_YearOnce) {
 		"Su  5  12  19  26             Su  2  9   16  23  30         Su  7  14  21  28             \n"
 		"\n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2025), new VerticalDaysFormatter, YearType::year_once);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2025), Orientation::vertical, YearType::year_once);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -248,7 +248,7 @@ TEST(OneYear, Vert_YearForEveryMonth) {
 		"Su  5  12  19  26             Su  2  9   16  23  30         Su  7  14  21  28             \n"
 		"\n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(2025), new VerticalDaysFormatter, YearType::year_for_every_month);
+	CalendarGui calendar_gui = CalendarGui(Calendar(2025), Orientation::vertical, YearType::year_for_every_month);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -275,7 +275,7 @@ TEST(Range, Horiz_YearOnce) {
 		"                                                              30                             \n"
 		"         \n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), new HorizontalDaysFormatter, YearType::year_once);
+	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), Orientation::horizontal, YearType::year_once);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -301,7 +301,7 @@ TEST(Range, Horiz_YearForEveryMonth) {
 		"                                                              30                             \n"
 		"         \n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), new HorizontalDaysFormatter, YearType::year_for_every_month);
+	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), Orientation::horizontal, YearType::year_for_every_month);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -328,7 +328,7 @@ TEST(Range, Vert_YearOnce) {
 		"Su  6  13  20  27             Su  4  11  18  25             Su  1  8   15  22  29         \n"
 		"\n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), new VerticalDaysFormatter, YearType::year_once);
+	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), Orientation::vertical, YearType::year_once);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }
@@ -354,7 +354,7 @@ TEST(Range, Vert_YearForEveryMonth) {
 		"Su  6  13  20  27             Su  4  11  18  25             Su  1  8   15  22  29         \n"
 		"\n";
 	std::stringstream str_real;
-	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), new VerticalDaysFormatter, YearType::year_for_every_month);
+	CalendarGui calendar_gui = CalendarGui(Calendar(1, 2025, 6, 2025), Orientation::vertical, YearType::year_for_every_month);
 	calendar_gui.draw_formatted_calendar(str_real);
 	EXPECT_EQ(str_real.str(), str_expected);
 }

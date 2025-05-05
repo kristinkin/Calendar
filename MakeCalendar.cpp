@@ -15,8 +15,8 @@ std::vector<CalendarGui> CalendarStreamReader::get_calendar_guis(std::istream& s
 			CalendarGui new_calendar_gui = CalendarGuiParser::string_to_calendar_gui(new_calendar, str.substr(str.find("|") + 1, str.length() - str.find("|")));
 			calendar_guis.push_back(new_calendar_gui);
 		}
-		catch (invalid_input& error) {
-			std::cerr << error.get_message() << error.get_string() << std::endl;
+		catch (const invalid_input& error) {
+			std::cerr << error.what() << std::endl;
 		}
 	}
 	return calendar_guis;
@@ -44,17 +44,17 @@ Calendar CalendarParser::string_to_calendar(std::string str) {
 		if (isdigit(words[1][0])) {
 			month_1 = std::stoi(words[1], &num_success, 10);
 			if (num_success == 0 || num_success > 2) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 		}
 		if (isdigit(words[2][0])) {
 			year_1 = std::stoi(words[2], &num_success, 10);
 			if (num_success == 0) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 		}
 		else {
-			throw invalid_input("invalid input in string: ", str);
+			throw invalid_input(str);
 		}
 		return Calendar(month_1, year_1);
 	}
@@ -62,47 +62,47 @@ Calendar CalendarParser::string_to_calendar(std::string str) {
 		if (isdigit(words[1][0])) {
 			year_1 = std::stoi(words[1], &num_success, 10);
 			if (num_success == 0) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 			return Calendar(year_1);
 		}
 		else {
-			throw invalid_input("invalid input in string: ", str);
+			throw invalid_input(str);
 		}
 	}
 	else if (words[0] == "range") {
 		if (isdigit(words[1][0])) {
 			month_1 = std::stoi(words[1], &num_success, 10);
 			if (num_success == 0 || num_success > 2) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 		}
-		else { throw invalid_input("invalid input in string: ", str); }
+		else { throw invalid_input(str); }
 		if (isdigit(words[2][0])) {
 			year_1 = std::stoi(words[2], &num_success, 10);
 			if (num_success == 0) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 		}
-		else { throw invalid_input("invalid input in string: ", str); }
+		else { throw invalid_input(str); }
 		if (isdigit(words[3][0])) {
 			month_2 = std::stoi(words[3], &num_success, 10);
 			if (num_success == 0 || num_success > 2) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 		}
-		else { throw invalid_input("invalid input in string: ", str); }
+		else { throw invalid_input(str); }
 		if (isdigit(words[4][0])) {
 			year_2 = std::stoi(words[4], &num_success, 10);
 			if (num_success == 0) {
-				throw invalid_input("invalid input in string: ", str);
+				throw invalid_input(str);
 			}
 		}
-		else { throw invalid_input("invalid input in string: ", str); }
+		else { throw invalid_input(str); }
 		return Calendar(month_1, year_1, month_2, year_2);
 	}
 	else {
-		throw invalid_input("invalid input in string: ", str);
+		throw invalid_input(str);
 	}
 }
 
@@ -112,22 +112,22 @@ CalendarGui CalendarGuiParser::string_to_calendar_gui(Calendar& calendar, std::s
 
 	if (words.size() > 1) {
 		if ((words[0] == "vert" && words[1] == "year_once") || (words[1] == "vert" && words[0] == "year_once")) {
-			return CalendarGui(calendar, new VerticalDaysFormatter, YearType::year_once);
+			return CalendarGui(calendar, Orientation::vertical, YearType::year_once);
 		}
 		else if ((words[0] == "horiz" && words[1] == "year_once") || (words[1] == "horiz" && words[0] == "year_once")) {
-			return CalendarGui(calendar, new HorizontalDaysFormatter, YearType::year_once);
+			return CalendarGui(calendar, Orientation::horizontal, YearType::year_once);
 		}
 		if ((words[0] == "vert" && words[1] == "year_for_every_month") || (words[1] == "vert" && words[0] == "year_for_every_month")) {
-			return CalendarGui(calendar, new VerticalDaysFormatter, YearType::year_for_every_month);
+			return CalendarGui(calendar, Orientation::vertical, YearType::year_for_every_month);
 		}
 		else if ((words[0] == "horiz" && words[1] == "year_for_every_month") || (words[1] == "horiz" && words[0] == "year_for_every_month")) {
-			return CalendarGui(calendar, new HorizontalDaysFormatter, YearType::year_for_every_month);
+			return CalendarGui(calendar, Orientation::horizontal, YearType::year_for_every_month);
 		}
 		else {
-			throw invalid_input("invalid input in string: ", str);
+			throw invalid_input(str);
 		}
 	}
 	else {
-		throw invalid_input("invalid input in string: ", str);
+		throw invalid_input(str);
 	}
 }
